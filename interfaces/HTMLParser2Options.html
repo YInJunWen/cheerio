@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>CheerioOptions | cheerio</title>
+	<title>HTMLParser2Options | cheerio</title>
 	<meta name="description" content="Documentation for cheerio">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -55,10 +55,10 @@
 					<a href="../modules.html">cheerio</a>
 				</li>
 				<li>
-					<a href="cheeriooptions.html">CheerioOptions</a>
+					<a href="HTMLParser2Options.html">HTMLParser2Options</a>
 				</li>
 			</ul>
-			<h1>Interface CheerioOptions</h1>
+			<h1>Interface HTMLParser2Options</h1>
 		</div>
 	</div>
 </header>
@@ -68,8 +68,7 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Options accepted by Cheerio. Please note that parser-specific options are
-						<em>only recognized</em> if the relevant parser is used.</p>
+						<p>Options accepted by htmlparser2, the default parser for XML.</p>
 					</div>
 				</div>
 			</section>
@@ -77,13 +76,18 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<a href="htmlparser2options.html" class="tsd-signature-type" data-tsd-kind="Interface">HTMLParser2Options</a>
+						<span class="tsd-signature-type">DomHandlerOptions</span>
 					</li>
 					<li>
-						<a href="parse5options.html" class="tsd-signature-type" data-tsd-kind="Interface">Parse5Options</a>
+						<span class="tsd-signature-type">ParserOptions</span>
 						<ul class="tsd-hierarchy">
 							<li>
-								<span class="target">CheerioOptions</span>
+								<span class="target">HTMLParser2Options</span>
+								<ul class="tsd-hierarchy">
+									<li>
+										<a href="CheerioOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">CheerioOptions</a>
+									</li>
+								</ul>
 							</li>
 						</ul>
 					</li>
@@ -93,35 +97,32 @@
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
-						<section class="tsd-index-section ">
+						<section class="tsd-index-section tsd-is-inherited tsd-is-external">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="cheeriooptions.html#tokenizer" class="tsd-kind-icon">Tokenizer</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="cheeriooptions.html#decodeentities" class="tsd-kind-icon">decode<wbr>Entities</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="cheeriooptions.html#lowercaseattributenames" class="tsd-kind-icon">lower<wbr>Case<wbr>Attribute<wbr>Names</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="cheeriooptions.html#lowercasetags" class="tsd-kind-icon">lower<wbr>Case<wbr>Tags</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="cheeriooptions.html#normalizewhitespace" class="tsd-kind-icon">normalize<wbr>Whitespace</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="cheeriooptions.html#recognizecdata" class="tsd-kind-icon">recognizeCDATA</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="cheeriooptions.html#recognizeselfclosing" class="tsd-kind-icon">recognize<wbr>Self<wbr>Closing</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="cheeriooptions.html#scriptingenabled" class="tsd-kind-icon">scripting<wbr>Enabled</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="cheeriooptions.html#sourcecodelocationinfo" class="tsd-kind-icon">source<wbr>Code<wbr>Location<wbr>Info</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="cheeriooptions.html#withendindices" class="tsd-kind-icon">with<wbr>End<wbr>Indices</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="cheeriooptions.html#withstartindices" class="tsd-kind-icon">with<wbr>Start<wbr>Indices</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="cheeriooptions.html#xml" class="tsd-kind-icon">xml</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="cheeriooptions.html#xmlmode" class="tsd-kind-icon">xml<wbr>Mode</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="HTMLParser2Options.html#Tokenizer" class="tsd-kind-icon">Tokenizer</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="HTMLParser2Options.html#decodeEntities" class="tsd-kind-icon">decode<wbr>Entities</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="HTMLParser2Options.html#lowerCaseAttributeNames" class="tsd-kind-icon">lower<wbr>Case<wbr>Attribute<wbr>Names</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="HTMLParser2Options.html#lowerCaseTags" class="tsd-kind-icon">lower<wbr>Case<wbr>Tags</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="HTMLParser2Options.html#normalizeWhitespace" class="tsd-kind-icon">normalize<wbr>Whitespace</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="HTMLParser2Options.html#recognizeCDATA" class="tsd-kind-icon">recognizeCDATA</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="HTMLParser2Options.html#recognizeSelfClosing" class="tsd-kind-icon">recognize<wbr>Self<wbr>Closing</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="HTMLParser2Options.html#withEndIndices" class="tsd-kind-icon">with<wbr>End<wbr>Indices</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="HTMLParser2Options.html#withStartIndices" class="tsd-kind-icon">with<wbr>Start<wbr>Indices</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="HTMLParser2Options.html#xmlMode" class="tsd-kind-icon">xml<wbr>Mode</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group ">
+			<section class="tsd-panel-group tsd-member-group tsd-is-inherited tsd-is-external">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
-					<a name="tokenizer" class="tsd-anchor"></a>
+					<a name="Tokenizer" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> Tokenizer</h3>
 					<div class="tsd-signature tsd-kind-icon">Tokenizer<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">typeof </span><span class="tsd-signature-type">default</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="htmlparser2options.html">HTMLParser2Options</a>.<a href="htmlparser2options.html#tokenizer">Tokenizer</a></p>
+						<p>Inherited from ParserOptions.Tokenizer</p>
 						<ul>
 							<li>Defined in node_modules/htmlparser2/lib/Parser.d.ts:47</li>
 						</ul>
@@ -133,11 +134,11 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
-					<a name="decodeentities" class="tsd-anchor"></a>
+					<a name="decodeEntities" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> decode<wbr>Entities</h3>
 					<div class="tsd-signature tsd-kind-icon">decode<wbr>Entities<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="htmlparser2options.html">HTMLParser2Options</a>.<a href="htmlparser2options.html#decodeentities">decodeEntities</a></p>
+						<p>Inherited from ParserOptions.decodeEntities</p>
 						<ul>
 							<li>Defined in node_modules/htmlparser2/lib/Parser.d.ts:17</li>
 						</ul>
@@ -154,11 +155,11 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
-					<a name="lowercaseattributenames" class="tsd-anchor"></a>
+					<a name="lowerCaseAttributeNames" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> lower<wbr>Case<wbr>Attribute<wbr>Names</h3>
 					<div class="tsd-signature tsd-kind-icon">lower<wbr>Case<wbr>Attribute<wbr>Names<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="htmlparser2options.html">HTMLParser2Options</a>.<a href="htmlparser2options.html#lowercaseattributenames">lowerCaseAttributeNames</a></p>
+						<p>Inherited from ParserOptions.lowerCaseAttributeNames</p>
 						<ul>
 							<li>Defined in node_modules/htmlparser2/lib/Parser.d.ts:29</li>
 						</ul>
@@ -175,11 +176,11 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
-					<a name="lowercasetags" class="tsd-anchor"></a>
+					<a name="lowerCaseTags" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> lower<wbr>Case<wbr>Tags</h3>
 					<div class="tsd-signature tsd-kind-icon">lower<wbr>Case<wbr>Tags<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="htmlparser2options.html">HTMLParser2Options</a>.<a href="htmlparser2options.html#lowercasetags">lowerCaseTags</a></p>
+						<p>Inherited from ParserOptions.lowerCaseTags</p>
 						<ul>
 							<li>Defined in node_modules/htmlparser2/lib/Parser.d.ts:23</li>
 						</ul>
@@ -196,11 +197,11 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
-					<a name="normalizewhitespace" class="tsd-anchor"></a>
+					<a name="normalizeWhitespace" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> normalize<wbr>Whitespace</h3>
 					<div class="tsd-signature tsd-kind-icon">normalize<wbr>Whitespace<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="htmlparser2options.html">HTMLParser2Options</a>.<a href="htmlparser2options.html#normalizewhitespace">normalizeWhitespace</a></p>
+						<p>Inherited from DomHandlerOptions.normalizeWhitespace</p>
 						<ul>
 							<li>Defined in node_modules/domhandler/lib/index.d.ts:28</li>
 						</ul>
@@ -220,11 +221,11 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
-					<a name="recognizecdata" class="tsd-anchor"></a>
+					<a name="recognizeCDATA" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> recognizeCDATA</h3>
 					<div class="tsd-signature tsd-kind-icon">recognizeCDATA<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="htmlparser2options.html">HTMLParser2Options</a>.<a href="htmlparser2options.html#recognizecdata">recognizeCDATA</a></p>
+						<p>Inherited from ParserOptions.recognizeCDATA</p>
 						<ul>
 							<li>Defined in node_modules/htmlparser2/lib/Parser.d.ts:36</li>
 						</ul>
@@ -242,11 +243,11 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
-					<a name="recognizeselfclosing" class="tsd-anchor"></a>
+					<a name="recognizeSelfClosing" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> recognize<wbr>Self<wbr>Closing</h3>
 					<div class="tsd-signature tsd-kind-icon">recognize<wbr>Self<wbr>Closing<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="htmlparser2options.html">HTMLParser2Options</a>.<a href="htmlparser2options.html#recognizeselfclosing">recognizeSelfClosing</a></p>
+						<p>Inherited from ParserOptions.recognizeSelfClosing</p>
 						<ul>
 							<li>Defined in node_modules/htmlparser2/lib/Parser.d.ts:43</li>
 						</ul>
@@ -263,44 +264,12 @@
 						</dl>
 					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-					<a name="scriptingenabled" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> scripting<wbr>Enabled</h3>
-					<div class="tsd-signature tsd-kind-icon">scripting<wbr>Enabled<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from <a href="parse5options.html">Parse5Options</a>.<a href="parse5options.html#scriptingenabled">scriptingEnabled</a></p>
-						<ul>
-							<li>Defined in <a href="https://github.com/YInJunWen/cheerio/blob/e0c7cbb/src/options.ts#L9">src/options.ts:9</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Disable scripting in parse5, so noscript tags would be parsed.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-					<a name="sourcecodelocationinfo" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> source<wbr>Code<wbr>Location<wbr>Info</h3>
-					<div class="tsd-signature tsd-kind-icon">source<wbr>Code<wbr>Location<wbr>Info<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from <a href="parse5options.html">Parse5Options</a>.<a href="parse5options.html#sourcecodelocationinfo">sourceCodeLocationInfo</a></p>
-						<ul>
-							<li>Defined in <a href="https://github.com/YInJunWen/cheerio/blob/e0c7cbb/src/options.ts#L11">src/options.ts:11</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Enable location support for parse5.</p>
-						</div>
-					</div>
-				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
-					<a name="withendindices" class="tsd-anchor"></a>
+					<a name="withEndIndices" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> with<wbr>End<wbr>Indices</h3>
 					<div class="tsd-signature tsd-kind-icon">with<wbr>End<wbr>Indices<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="htmlparser2options.html">HTMLParser2Options</a>.<a href="htmlparser2options.html#withendindices">withEndIndices</a></p>
+						<p>Inherited from DomHandlerOptions.withEndIndices</p>
 						<ul>
 							<li>Defined in node_modules/domhandler/lib/index.d.ts:19</li>
 						</ul>
@@ -319,11 +288,11 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
-					<a name="withstartindices" class="tsd-anchor"></a>
+					<a name="withStartIndices" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> with<wbr>Start<wbr>Indices</h3>
 					<div class="tsd-signature tsd-kind-icon">with<wbr>Start<wbr>Indices<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="htmlparser2options.html">HTMLParser2Options</a>.<a href="htmlparser2options.html#withstartindices">withStartIndices</a></p>
+						<p>Inherited from DomHandlerOptions.withStartIndices</p>
 						<ul>
 							<li>Defined in node_modules/domhandler/lib/index.d.ts:11</li>
 						</ul>
@@ -341,27 +310,12 @@
 						</dl>
 					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="xml" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> xml</h3>
-					<div class="tsd-signature tsd-kind-icon">xml<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><a href="htmlparser2options.html" class="tsd-signature-type" data-tsd-kind="Interface">HTMLParser2Options</a></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/YInJunWen/cheerio/blob/e0c7cbb/src/options.ts#L25">src/options.ts:25</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Suggested way of configuring htmlparser2 when wanting to parse XML.</p>
-						</div>
-					</div>
-				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
-					<a name="xmlmode" class="tsd-anchor"></a>
+					<a name="xmlMode" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> xml<wbr>Mode</h3>
 					<div class="tsd-signature tsd-kind-icon">xml<wbr>Mode<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="htmlparser2options.html">HTMLParser2Options</a>.<a href="htmlparser2options.html#xmlmode">xmlMode</a></p>
+						<p>Inherited from DomHandlerOptions.xmlMode</p>
 						<ul>
 							<li>Defined in node_modules/domhandler/lib/index.d.ts:34</li>
 						</ul>
@@ -390,91 +344,82 @@
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="../classes/cheerio.html" class="tsd-kind-icon">Cheerio</a>
+						<a href="../classes/Cheerio.html" class="tsd-kind-icon">Cheerio</a>
 					</li>
 					<li class=" tsd-kind-class tsd-is-external">
-						<a href="../classes/document.html" class="tsd-kind-icon">Document</a>
+						<a href="../classes/Document.html" class="tsd-kind-icon">Document</a>
 					</li>
 					<li class=" tsd-kind-class tsd-is-external">
-						<a href="../classes/element.html" class="tsd-kind-icon">Element</a>
+						<a href="../classes/Element.html" class="tsd-kind-icon">Element</a>
 					</li>
 					<li class=" tsd-kind-class tsd-is-external">
-						<a href="../classes/node.html" class="tsd-kind-icon">Node</a>
+						<a href="../classes/Node.html" class="tsd-kind-icon">Node</a>
 					</li>
 					<li class=" tsd-kind-class tsd-is-external">
-						<a href="../classes/nodewithchildren.html" class="tsd-kind-icon">Node<wbr>With<wbr>Children</a>
+						<a href="../classes/NodeWithChildren.html" class="tsd-kind-icon">Node<wbr>With<wbr>Children</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-has-type-parameter">
-						<a href="cheerioapi.html" class="tsd-kind-icon">CheerioAPI</a>
+						<a href="CheerioAPI.html" class="tsd-kind-icon">CheerioAPI</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="CheerioOptions.html" class="tsd-kind-icon">Cheerio<wbr>Options</a>
 					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface">
-						<a href="cheeriooptions.html" class="tsd-kind-icon">Cheerio<wbr>Options</a>
+						<a href="HTMLParser2Options.html" class="tsd-kind-icon">HTMLParser2<wbr>Options</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
-								<a href="cheeriooptions.html#tokenizer" class="tsd-kind-icon">Tokenizer</a>
+								<a href="HTMLParser2Options.html#Tokenizer" class="tsd-kind-icon">Tokenizer</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
-								<a href="cheeriooptions.html#decodeentities" class="tsd-kind-icon">decode<wbr>Entities</a>
+								<a href="HTMLParser2Options.html#decodeEntities" class="tsd-kind-icon">decode<wbr>Entities</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
-								<a href="cheeriooptions.html#lowercaseattributenames" class="tsd-kind-icon">lower<wbr>Case<wbr>Attribute<wbr>Names</a>
+								<a href="HTMLParser2Options.html#lowerCaseAttributeNames" class="tsd-kind-icon">lower<wbr>Case<wbr>Attribute<wbr>Names</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
-								<a href="cheeriooptions.html#lowercasetags" class="tsd-kind-icon">lower<wbr>Case<wbr>Tags</a>
+								<a href="HTMLParser2Options.html#lowerCaseTags" class="tsd-kind-icon">lower<wbr>Case<wbr>Tags</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
-								<a href="cheeriooptions.html#normalizewhitespace" class="tsd-kind-icon">normalize<wbr>Whitespace</a>
+								<a href="HTMLParser2Options.html#normalizeWhitespace" class="tsd-kind-icon">normalize<wbr>Whitespace</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
-								<a href="cheeriooptions.html#recognizecdata" class="tsd-kind-icon">recognizeCDATA</a>
+								<a href="HTMLParser2Options.html#recognizeCDATA" class="tsd-kind-icon">recognizeCDATA</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
-								<a href="cheeriooptions.html#recognizeselfclosing" class="tsd-kind-icon">recognize<wbr>Self<wbr>Closing</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-								<a href="cheeriooptions.html#scriptingenabled" class="tsd-kind-icon">scripting<wbr>Enabled</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-								<a href="cheeriooptions.html#sourcecodelocationinfo" class="tsd-kind-icon">source<wbr>Code<wbr>Location<wbr>Info</a>
+								<a href="HTMLParser2Options.html#recognizeSelfClosing" class="tsd-kind-icon">recognize<wbr>Self<wbr>Closing</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
-								<a href="cheeriooptions.html#withendindices" class="tsd-kind-icon">with<wbr>End<wbr>Indices</a>
+								<a href="HTMLParser2Options.html#withEndIndices" class="tsd-kind-icon">with<wbr>End<wbr>Indices</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
-								<a href="cheeriooptions.html#withstartindices" class="tsd-kind-icon">with<wbr>Start<wbr>Indices</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="cheeriooptions.html#xml" class="tsd-kind-icon">xml</a>
+								<a href="HTMLParser2Options.html#withStartIndices" class="tsd-kind-icon">with<wbr>Start<wbr>Indices</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
-								<a href="cheeriooptions.html#xmlmode" class="tsd-kind-icon">xml<wbr>Mode</a>
+								<a href="HTMLParser2Options.html#xmlMode" class="tsd-kind-icon">xml<wbr>Mode</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
 					<li class=" tsd-kind-interface">
-						<a href="htmlparser2options.html" class="tsd-kind-icon">HTMLParser2<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="parse5options.html" class="tsd-kind-icon">Parse5<wbr>Options</a>
+						<a href="Parse5Options.html" class="tsd-kind-icon">Parse5<wbr>Options</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
-						<a href="../modules.html#acceptedelems" class="tsd-kind-icon">Accepted<wbr>Elems</a>
+						<a href="../modules.html#AcceptedElems" class="tsd-kind-icon">Accepted<wbr>Elems</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+						<a href="../modules.html#AcceptedFilters" class="tsd-kind-icon">Accepted<wbr>Filters</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+						<a href="../modules.html#BasicAcceptedElems" class="tsd-kind-icon">Basic<wbr>Accepted<wbr>Elems</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+						<a href="../modules.html#FilterFunction" class="tsd-kind-icon">Filter<wbr>Function</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
-						<a href="../modules.html#acceptedfilters" class="tsd-kind-icon">Accepted<wbr>Filters</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
-						<a href="../modules.html#basicacceptedelems" class="tsd-kind-icon">Basic<wbr>Accepted<wbr>Elems</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
-						<a href="../modules.html#filterfunction" class="tsd-kind-icon">Filter<wbr>Function</a>
-					</li>
-					<li class=" tsd-kind-type-alias">
-						<a href="../modules.html#selectortype" class="tsd-kind-icon">Selector<wbr>Type</a>
+						<a href="../modules.html#SelectorType" class="tsd-kind-icon">Selector<wbr>Type</a>
 					</li>
 					<li class=" tsd-kind-property">
 						<a href="../modules.html#default" class="tsd-kind-icon">default</a>
@@ -489,7 +434,7 @@
 						<a href="../modules.html#merge" class="tsd-kind-icon">merge</a>
 					</li>
 					<li class=" tsd-kind-function">
-						<a href="../modules.html#parsehtml" class="tsd-kind-icon">parseHTML</a>
+						<a href="../modules.html#parseHTML" class="tsd-kind-icon">parseHTML</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="../modules.html#root" class="tsd-kind-icon">root</a>
@@ -512,9 +457,6 @@
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
 			</ul>
 		</div>
 	</div>
