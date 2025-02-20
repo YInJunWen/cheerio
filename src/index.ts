@@ -1,152 +1,279 @@
 /**
- * The main types of Cheerio objects.
- *
- * @category Cheerio
+ * @file Batteries-included version of Cheerio. This module includes several
+ *   convenience methods for loading documents from various sources.
  */
-export type { Cheerio } from './cheerio';
 
-/**
- * Types used in signatures of Cheerio methods.
- *
- * @category Cheerio
- */
-export * from './types';
+export * from './load-parse.js';
+export { contains, merge } from './static.js';
+export type * from './types.js';
 export type {
+  Cheerio,
+  CheerioAPI,
   CheerioOptions,
   HTMLParser2Options,
-  Parse5Options,
-} from './options';
+} from './slim.js';
+
+import { adapter as htmlparser2Adapter } from 'parse5-htmlparser2-tree-adapter';
+import * as htmlparser2 from 'htmlparser2';
+import { ParserStream as Parse5Stream } from 'parse5-parser-stream';
+import {
+  decodeBuffer,
+  DecodeStream,
+  type SnifferOptions,
+} from 'encoding-sniffer';
+import * as undici from 'undici';
+import MIMEType from 'whatwg-mimetype';
+import { Writable, finished } from 'node:stream';
+import type { CheerioAPI } from './load.js';
+import {
+  flattenOptions,
+  type InternalOptions,
+  type CheerioOptions,
+} from './options.js';
+import { load } from './load-parse.js';
+
 /**
- * Re-exporting all of the node types.
+ * Sniffs the encoding of a buffer, then creates a querying function bound to a
+ * document created from the buffer.
  *
- * @category DOM Node
- */
-export type { Node, NodeWithChildren, Element, Document } from 'domhandler';
-
-export type { CheerioAPI } from './load';
-import { getLoad } from './load';
-import { getParse } from './parse';
-import { renderWithParse5, parseWithParse5 } from './parsers/parse5-adapter';
-import renderWithHtmlparser2 from 'dom-serializer';
-import { parseDocument as parseWithHtmlparser2 } from 'htmlparser2';
-
-const parse = getParse((content, options, isDocument) =>
-  options.xmlMode || options._useHtmlParser2
-    ? parseWithHtmlparser2(content, options)
-    : parseWithParse5(content, options, isDocument)
-);
-
-// Duplicate docs due to https://github.com/TypeStrong/typedoc/issues/1616
-/**
- * Create a querying function, bound to a document created from the provided markup.
+ * @category Loading
+ * @example
  *
- * Note that similar to web browser contexts, this operation may introduce
- * `<html>`, `<head>`, and `<body>` elements; set `isDocument` to `false` to
- * switch to fragment mode and disable this.
+ * ```js
+ * import * as cheerio from 'cheerio';
  *
- * @param content - Markup to be loaded.
- * @param options - Options for the created instance.
- * @param isDocument - Allows parser to be switched to fragment mode.
+ * const buffer = fs.readFileSync('index.html');
+ * const $ = cheerio.loadBuffer(buffer);
+ * ```
+ *
+ * @param buffer - The buffer to sniff the encoding of.
+ * @param options - The options to pass to Cheerio.
  * @returns The loaded document.
- * @see {@link https://cheerio.js.org#loading} for additional usage information.
  */
-export const load = getLoad(parse, (dom, options) =>
-  options.xmlMode || options._useHtmlParser2
-    ? renderWithHtmlparser2(dom, options)
-    : renderWithParse5(dom)
-);
+export function loadBuffer(
+  buffer: Buffer,
+  options: DecodeStreamOptions = {},
+): CheerioAPI {
+  const opts = flattenOptions(options);
+  const str = decodeBuffer(buffer, {
+    defaultEncoding: opts?.xmlMode ? 'utf8' : 'windows-1252',
+    ...options.encoding,
+  });
+
+  return load(str, opts);
+}
+
+function _stringStream(
+  options: InternalOptions | undefined,
+  cb: (err: Error | null | undefined, $: CheerioAPI) => void,
+): Writable {
+  if (options?._useHtmlParser2) {
+    const parser = htmlparser2.createDocumentStream(
+      (err, document) => cb(err, load(document)),
+      options,
+    );
+
+    return new Writable({
+      decodeStrings: false,
+      write(chunk, _encoding, callback) {
+        if (typeof chunk !== 'string') {
+          throw new TypeError('Expected a string');
+        }
+
+        parser.write(chunk);
+        callback();
+      },
+      final(callback) {
+        parser.end();
+        callback();
+      },
+    });
+  }
+
+  options ??= {};
+  options.treeAdapter ??= htmlparser2Adapter;
+
+  if (options.scriptingEnabled !== false) {
+    options.scriptingEnabled = true;
+  }
+
+  const stream = new Parse5Stream(options);
+
+  finished(stream, (err) => cb(err, load(stream.document)));
+
+  return stream;
+}
 
 /**
- * The default cheerio instance.
+ * Creates a stream that parses a sequence of strings into a document.
  *
- * @deprecated Use the function returned by `load` instead.
- */
-export default load([]);
-
-import { filters, pseudos, aliases } from 'cheerio-select';
-
-/**
- * Extension points for adding custom pseudo selectors.
+ * The stream is a `Writable` stream that accepts strings. When the stream is
+ * finished, the callback is called with the loaded document.
  *
- * @example <caption>Adds a custom pseudo selector `:classic`, which matches
- * some fun HTML elements that are no more.</caption>
- *
- * ```js
- * import { load, select } from 'cheerio';
- *
- * // Aliases are short hands for longer HTML selectors
- * select.aliases.classic = 'marquee,blink';
- *
- * const $ = load(doc);
- * $(':classic').html();
- * ```
- */
-export const select = { filters, pseudos, aliases };
-
-import * as staticMethods from './static';
-
-/**
- * In order to promote consistency with the jQuery library, users are encouraged
- * to instead use the static method of the same name.
- *
- * @deprecated
+ * @category Loading
  * @example
  *
  * ```js
- * const $ = cheerio.load('<div><p></p></div>');
+ * import * as cheerio from 'cheerio';
+ * import * as fs from 'fs';
  *
- * $.contains($('div').get(0), $('p').get(0));
- * //=> true
+ * const writeStream = cheerio.stringStream({}, (err, $) => {
+ *   if (err) {
+ *     // Handle error
+ *   }
  *
- * $.contains($('p').get(0), $('div').get(0));
- * //=> false
+ *   console.log($('h1').text());
+ *   // Output: Hello, world!
+ * });
+ *
+ * fs.createReadStream('my-document.html', { encoding: 'utf8' }).pipe(
+ *   writeStream,
+ * );
  * ```
  *
- * @returns {boolean}
+ * @param options - The options to pass to Cheerio.
+ * @param cb - The callback to call when the stream is finished.
+ * @returns The writable stream.
  */
-export const { contains } = staticMethods;
+export function stringStream(
+  options: CheerioOptions,
+  cb: (err: Error | null | undefined, $: CheerioAPI) => void,
+): Writable {
+  return _stringStream(flattenOptions(options), cb);
+}
+
+export interface DecodeStreamOptions extends CheerioOptions {
+  encoding?: SnifferOptions;
+}
 
 /**
- * In order to promote consistency with the jQuery library, users are encouraged
- * to instead use the static method of the same name.
+ * Parses a stream of buffers into a document.
  *
- * @deprecated
+ * The stream is a `Writable` stream that accepts buffers. When the stream is
+ * finished, the callback is called with the loaded document.
+ *
+ * @category Loading
+ * @param options - The options to pass to Cheerio.
+ * @param cb - The callback to call when the stream is finished.
+ * @returns The writable stream.
+ */
+export function decodeStream(
+  options: DecodeStreamOptions,
+  cb: (err: Error | null | undefined, $: CheerioAPI) => void,
+): Writable {
+  const { encoding = {}, ...cheerioOptions } = options;
+  const opts = flattenOptions(cheerioOptions);
+
+  // Set the default encoding to UTF-8 for XML mode
+  encoding.defaultEncoding ??= opts?.xmlMode ? 'utf8' : 'windows-1252';
+
+  const decodeStream = new DecodeStream(encoding);
+  const loadStream = _stringStream(opts, cb);
+
+  decodeStream.pipe(loadStream);
+
+  return decodeStream;
+}
+
+type UndiciStreamOptions = Parameters<typeof undici.stream>[1];
+
+export interface CheerioRequestOptions extends DecodeStreamOptions {
+  /** The options passed to `undici`'s `stream` method. */
+  requestOptions?: UndiciStreamOptions;
+}
+
+const defaultRequestOptions: UndiciStreamOptions = {
+  method: 'GET',
+  // Allow redirects by default
+  maxRedirections: 5,
+  // Set an Accept header
+  headers: {
+    accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+  },
+};
+
+/**
+ * `fromURL` loads a document from a URL.
+ *
+ * By default, redirects are allowed and non-2xx responses are rejected.
+ *
+ * @category Loading
  * @example
  *
  * ```js
- * const $ = cheerio.load('');
+ * import * as cheerio from 'cheerio';
  *
- * $.merge([1, 2], [3, 4]);
- * //=> [1, 2, 3, 4]
+ * const $ = await cheerio.fromURL('https://example.com');
  * ```
+ *
+ * @param url - The URL to load the document from.
+ * @param options - The options to pass to Cheerio.
+ * @returns The loaded document.
  */
-export const { merge } = staticMethods;
+export async function fromURL(
+  url: string | URL,
+  options: CheerioRequestOptions = {},
+): Promise<CheerioAPI> {
+  const {
+    requestOptions = {
+      ...defaultRequestOptions,
+      dispatcher: undici
+        .getGlobalDispatcher()
+        .compose(undici.interceptors.responseError()),
+    },
+    encoding = {},
+    ...cheerioOptions
+  } = options;
+  let undiciStream: Promise<undici.Dispatcher.StreamData<unknown>> | undefined;
 
-/**
- * In order to promote consistency with the jQuery library, users are encouraged
- * to instead use the static method of the same name as it is defined on the
- * "loaded" Cheerio factory function.
- *
- * @deprecated See {@link static/parseHTML}.
- * @example
- *
- * ```js
- * const $ = cheerio.load('');
- * $.parseHTML('<b>markup</b>');
- * ```
- */
-export const { parseHTML } = staticMethods;
+  // Add headers if none were supplied.
+  requestOptions.headers ??= defaultRequestOptions.headers;
 
-/**
- * Users seeking to access the top-level element of a parsed document should
- * instead use the `root` static method of a "loaded" Cheerio function.
- *
- * @deprecated
- * @example
- *
- * ```js
- * const $ = cheerio.load('');
- * $.root();
- * ```
- */
-export const { root } = staticMethods;
+  const promise = new Promise<CheerioAPI>((resolve, reject) => {
+    undiciStream = undici.stream(url, requestOptions, (res) => {
+      const contentTypeHeader = res.headers['content-type'] ?? 'text/html';
+      const mimeType = new MIMEType(
+        Array.isArray(contentTypeHeader)
+          ? contentTypeHeader[0]
+          : contentTypeHeader,
+      );
+
+      if (!mimeType.isHTML() && !mimeType.isXML()) {
+        throw new RangeError(
+          `The content-type "${mimeType.essence}" is neither HTML nor XML.`,
+        );
+      }
+
+      // Forward the charset from the header to the decodeStream.
+      encoding.transportLayerEncodingLabel = mimeType.parameters.get('charset');
+
+      /*
+       * If we allow redirects, we will have entries in the history.
+       * The last entry will be the final URL.
+       */
+      const history = (
+        res.context as
+          | {
+              history?: URL[];
+            }
+          | undefined
+      )?.history;
+
+      const opts = {
+        encoding,
+        // Set XML mode based on the MIME type.
+        xmlMode: mimeType.isXML(),
+        // Set the `baseURL` to the final URL.
+        baseURL: history ? history[history.length - 1] : url,
+        ...cheerioOptions,
+      };
+
+      return decodeStream(opts, (err, $) => (err ? reject(err) : resolve($)));
+    });
+  });
+
+  // Let's make sure the request is completed before returning the promise.
+  await undiciStream;
+
+  return promise;
+}

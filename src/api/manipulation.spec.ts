@@ -1,7 +1,12 @@
-import { load } from '../../src';
-import type { CheerioAPI, Cheerio } from '..';
-import { fruits, divcontainers, mixedText } from '../__fixtures__/fixtures';
-import type { Node, Element } from 'domhandler';
+import { describe, it, expect, beforeEach } from 'vitest';
+import { load, type CheerioAPI, type Cheerio } from '../index.js';
+import {
+  fruits,
+  divcontainers,
+  mixedText,
+  unwrapspans,
+} from '../__fixtures__/fixtures.js';
+import type { AnyNode, Element } from 'domhandler';
 
 describe('$(...)', () => {
   let $: CheerioAPI;
@@ -59,13 +64,13 @@ describe('$(...)', () => {
 
     it('(html) : wraps with nested elements', () => {
       const $orangeFruits = $(
-        '<div class="orange-fruits"><div class="and-stuff"></div></div>'
+        '<div class="orange-fruits"><div class="and-stuff"></div></div>',
       );
       $('.orange').wrap($orangeFruits);
 
       expect($fruits.children().eq(1).hasClass('orange-fruits')).toBe(true);
       expect($('.orange-fruits').children().eq(0).hasClass('and-stuff')).toBe(
-        true
+        true,
       );
       expect($fruits.children().eq(2).hasClass('pear')).toBe(true);
       expect($('.orange-fruits').children()).toHaveLength(1);
@@ -92,8 +97,8 @@ describe('$(...)', () => {
 
     it('(fn) : should invoke the provided function with the correct arguments and context', () => {
       const $children = $fruits.children();
-      const args: [number, Node][] = [];
-      const thisValues: Node[] = [];
+      const args: [number, AnyNode][] = [];
+      const thisValues: AnyNode[] = [];
 
       $children.wrap(function (...myArgs) {
         args.push(myArgs);
@@ -162,15 +167,15 @@ describe('$(...)', () => {
       $('li').wrap($fruitDecorator);
       expect($fruits.children().eq(0).hasClass('fruit-decorator')).toBe(true);
       expect($fruits.children().eq(0).children().eq(0).hasClass('apple')).toBe(
-        true
+        true,
       );
       expect($fruits.children().eq(1).hasClass('fruit-decorator')).toBe(true);
       expect($fruits.children().eq(1).children().eq(0).hasClass('orange')).toBe(
-        true
+        true,
       );
       expect($fruits.children().eq(2).hasClass('fruit-decorator')).toBe(true);
       expect($fruits.children().eq(2).children().eq(0).hasClass('pear')).toBe(
-        true
+        true,
       );
     });
   });
@@ -207,7 +212,7 @@ describe('$(...)', () => {
       $test($test('body')[0].children).wrapInner('<test>');
 
       expect($test('body').html()).toBe(
-        '<a><test>1</test></a>TEXT<b><test>2</test></b>'
+        '<a><test>1</test></a>TEXT<b><test>2</test></b>',
       );
     });
 
@@ -237,8 +242,8 @@ describe('$(...)', () => {
 
     it('(fn) : should invoke the provided function with the correct arguments and context', () => {
       const $children = $fruits.children();
-      const args: [number, Node][] = [];
-      const thisValues: Node[] = [];
+      const args: [number, AnyNode][] = [];
+      const thisValues: AnyNode[] = [];
 
       $children.wrapInner(function (...myArgs) {
         args.push(myArgs);
@@ -303,30 +308,30 @@ describe('$(...)', () => {
 
       expect($('.fruit-decorator')).toHaveLength(3);
       expect($children.eq(0).children().eq(0).hasClass('fruit-decorator')).toBe(
-        true
+        true,
       );
       expect($children.eq(0).hasClass('apple')).toBe(true);
       expect($children.eq(1).children().eq(0).hasClass('fruit-decorator')).toBe(
-        true
+        true,
       );
       expect($children.eq(1).hasClass('orange')).toBe(true);
       expect($children.eq(2).children().eq(0).hasClass('fruit-decorator')).toBe(
-        true
+        true,
       );
       expect($children.eq(2).hasClass('pear')).toBe(true);
     });
 
     it('(html) : wraps with nested elements', () => {
       const $badOrangeJoke = $(
-        '<div class="orange-you-glad"><div class="i-didnt-say-apple"></div></div>'
+        '<div class="orange-you-glad"><div class="i-didnt-say-apple"></div></div>',
       );
       $('.orange').wrapInner($badOrangeJoke);
 
       expect($('.orange').children().eq(0).hasClass('orange-you-glad')).toBe(
-        true
+        true,
       );
       expect(
-        $('.orange-you-glad').children().eq(0).hasClass('i-didnt-say-apple')
+        $('.orange-you-glad').children().eq(0).hasClass('i-didnt-say-apple'),
       ).toBe(true);
       expect($fruits.children().eq(2).hasClass('pear')).toBe(true);
       expect($('.orange-you-glad').children()).toHaveLength(1);
@@ -342,13 +347,6 @@ describe('$(...)', () => {
 
   describe('.unwrap', () => {
     let $elem: CheerioAPI;
-    const unwrapspans = [
-      '<div id=unwrap style="display: none;">',
-      '<div id=unwrap1><span class=unwrap>a</span><span class=unwrap>b</span></div>',
-      '<div id=unwrap2><span class=unwrap>c</span><span class=unwrap>d</span></div>',
-      '<div id=unwrap3><b><span class="unwrap unwrap3">e</span></b><b><span class="unwrap unwrap3">f</span></b></div>',
-      '</div>',
-    ].join('');
 
     beforeEach(() => {
       $elem = load(unwrapspans);
@@ -360,7 +358,7 @@ describe('$(...)', () => {
 
       // Make #unwrap1 and #unwrap2 go away
       expect(
-        $elem('#unwrap1 span').add('#unwrap2 span:first-child').unwrap()
+        $elem('#unwrap1 span').add('#unwrap2 span:first-child').unwrap(),
       ).toHaveLength(3);
 
       /*
@@ -371,12 +369,12 @@ describe('$(...)', () => {
 
       // Make all b elements in #unwrap3 go away
       expect($elem('#unwrap3 span').unwrap().get()).toEqual(
-        $elem('#unwrap3 > span').get()
+        $elem('#unwrap3 > span').get(),
       );
 
       // Make #unwrap3 go away
       expect($elem('#unwrap3 span').unwrap().get()).toEqual(
-        $elem('#unwrap > span.unwrap3').get()
+        $elem('#unwrap > span.unwrap3').get(),
       );
 
       // #unwrap only contains 6 child spans
@@ -384,12 +382,12 @@ describe('$(...)', () => {
 
       // Make the 6 spans become children of body
       expect($elem('#unwrap > span').unwrap().get()).toEqual(
-        $elem('body > span.unwrap').get()
+        $elem('body > span.unwrap').get(),
       );
 
       // Can't unwrap children of body
       expect($elem('body > span.unwrap').unwrap().get()).toEqual(
-        $elem('body > span.unwrap').get()
+        $elem('body > span.unwrap').get(),
       );
 
       // Can't unwrap children of body
@@ -500,7 +498,7 @@ describe('$(...)', () => {
       const p = $container[0].parent;
 
       const result = $container.wrapAll(
-        () => "<div class='red'><div class='tmp'></div></div>"
+        () => "<div class='red'><div class='tmp'></div></div>",
       );
 
       expect(result.parent()).toHaveLength(1);
@@ -542,7 +540,7 @@ describe('$(...)', () => {
     });
 
     it('(null) :  should do nothing', () => {
-      $fruits.append(null as any);
+      $fruits.append(null as never);
       expect($fruits.children()).toHaveLength(3);
     });
 
@@ -630,7 +628,7 @@ describe('$(...)', () => {
 
     it('(Array) : should append all elements in the array', () => {
       const more = $(
-        '<li class="plum">Plum</li><li class="grape">Grape</li>'
+        '<li class="plum">Plum</li><li class="grape">Grape</li>',
       ).get();
       $fruits.append(more);
       expect($fruits.children().eq(3).hasClass('plum')).toBe(true);
@@ -638,9 +636,9 @@ describe('$(...)', () => {
     });
 
     it('(fn) : should invoke the callback with the correct arguments and context', () => {
-      $fruits = $fruits.children();
+      const $fruits = $('#fruits').children();
       const args: [number, string][] = [];
-      const thisValues: Node[] = [];
+      const thisValues: AnyNode[] = [];
 
       $fruits.append(function (...myArgs) {
         args.push(myArgs);
@@ -657,7 +655,7 @@ describe('$(...)', () => {
     });
 
     it('(fn) : should add returned string as last child', () => {
-      $fruits = $fruits.children();
+      const $fruits = $('#fruits').children();
 
       $fruits.append(() => '<div class="first">');
 
@@ -671,7 +669,7 @@ describe('$(...)', () => {
     });
 
     it('(fn) : should add returned Cheerio object as last child', () => {
-      $fruits = $fruits.children();
+      const $fruits = $('#fruits').children();
 
       $fruits.append(() => $('<div class="second">'));
 
@@ -685,7 +683,7 @@ describe('$(...)', () => {
     });
 
     it('(fn) : should add returned Node as last child', () => {
-      $fruits = $fruits.children();
+      const $fruits = $('#fruits').children();
 
       $fruits.append(() => $('<div class="third">')[0]);
 
@@ -738,16 +736,16 @@ describe('$(...)', () => {
       const $style = $('<style>.foo {}</style>');
       $fruits.prepend($style);
       const styleTag = $fruits.children().get(0);
-      expect(styleTag.tagName).toBe('style');
-      expect(styleTag.children[0]).toHaveProperty('data', '.foo {}');
+      expect(styleTag?.tagName).toBe('style');
+      expect(styleTag?.children[0]).toHaveProperty('data', '.foo {}');
     });
 
     it('($(...)) : should add script element as first child', () => {
       const $script = $('<script>var foo;</script>');
       $fruits.prepend($script);
       const scriptTag = $fruits.children().get(0);
-      expect(scriptTag.tagName).toBe('script');
-      expect(scriptTag.children[0]).toHaveProperty('data', 'var foo;');
+      expect(scriptTag?.tagName).toBe('script');
+      expect(scriptTag?.children[0]).toHaveProperty('data', 'var foo;');
     });
 
     it('(Node) : should add node as first child', () => {
@@ -796,7 +794,7 @@ describe('$(...)', () => {
 
     it('(Array) : should add all elements in the array as initial children', () => {
       const more = $(
-        '<li class="plum">Plum</li><li class="grape">Grape</li>'
+        '<li class="plum">Plum</li><li class="grape">Grape</li>',
       ).get();
       $fruits.prepend(more);
       expect($fruits.children().eq(0).hasClass('plum')).toBe(true);
@@ -813,8 +811,8 @@ describe('$(...)', () => {
 
     it('(fn) : should invoke the callback with the correct arguments and context', () => {
       const args: [number, string][] = [];
-      const thisValues: Node[] = [];
-      $fruits = $fruits.children();
+      const thisValues: AnyNode[] = [];
+      const $fruits = $('#fruits').children();
 
       $fruits.prepend(function (...myArgs) {
         args.push(myArgs);
@@ -831,7 +829,7 @@ describe('$(...)', () => {
     });
 
     it('(fn) : should add returned string as first child', () => {
-      $fruits = $fruits.children();
+      const $fruits = $('#fruits').children();
 
       $fruits.prepend(() => '<div class="first">');
 
@@ -845,7 +843,7 @@ describe('$(...)', () => {
     });
 
     it('(fn) : should add returned Cheerio object as first child', () => {
-      $fruits = $fruits.children();
+      const $fruits = $('#fruits').children();
 
       $fruits.prepend(() => $('<div class="second">'));
 
@@ -859,7 +857,7 @@ describe('$(...)', () => {
     });
 
     it('(fn) : should add returned Node as first child', () => {
-      $fruits = $fruits.children();
+      const $fruits = $('#fruits').children();
 
       $fruits.prepend(() => $('<div class="third">')[0]);
 
@@ -954,7 +952,7 @@ describe('$(...)', () => {
 
     it('(Array) : should add all elements in the array as next sibling', () => {
       const more = $(
-        '<li class="plum">Plum</li><li class="grape">Grape</li>'
+        '<li class="plum">Plum</li><li class="grape">Grape</li>',
       ).get();
       $('.apple').after(more);
       expect($fruits.children().eq(1).hasClass('plum')).toBe(true);
@@ -1021,8 +1019,8 @@ describe('$(...)', () => {
 
     it('(fn) : should invoke the callback with the correct arguments and context', () => {
       const args: [number, string][] = [];
-      const thisValues: Node[] = [];
-      $fruits = $fruits.children();
+      const thisValues: AnyNode[] = [];
+      const $fruits = $('#fruits').children();
 
       $fruits.after(function (...myArgs) {
         args.push(myArgs);
@@ -1039,7 +1037,7 @@ describe('$(...)', () => {
     });
 
     it('(fn) : should add returned string as next sibling', () => {
-      $fruits = $fruits.children();
+      const $fruits = $('#fruits').children();
 
       $fruits.after(() => '<li class="first">');
 
@@ -1049,7 +1047,7 @@ describe('$(...)', () => {
     });
 
     it('(fn) : should add returned Cheerio object as next sibling', () => {
-      $fruits = $fruits.children();
+      const $fruits = $('#fruits').children();
 
       $fruits.after(() => $('<li class="second">'));
 
@@ -1059,7 +1057,7 @@ describe('$(...)', () => {
     });
 
     it('(fn) : should add returned element as next sibling', () => {
-      $fruits = $fruits.children();
+      const $fruits = $('#fruits').children();
 
       $fruits.after(() => $('<li class="third">')[0]);
 
@@ -1072,11 +1070,11 @@ describe('$(...)', () => {
       const $text = load(mixedText);
 
       $text($text('body')[0].children).after(
-        (_, content) => `<c>${content}added</c>`
+        (_, content) => `<c>${content}added</c>`,
       );
 
       expect($text('body').html()).toBe(
-        '<a>1</a><c>1added</c>TEXT<b>2</b><c>2added</c>'
+        '<a>1</a><c>1added</c>TEXT<b>2</b><c>2added</c>',
       );
     });
 
@@ -1172,7 +1170,7 @@ describe('$(...)', () => {
 
     it('(single) should return the new elements for chaining', () => {
       const $purple = $(
-        '<li class="grape">Grape</li><li class="plum">Plum</li>'
+        '<li class="grape">Grape</li><li class="plum">Plum</li>',
       ).insertAfter('.apple');
       expect($purple.cheerio).toBeTruthy();
       expect($purple.each).toBeTruthy();
@@ -1183,7 +1181,7 @@ describe('$(...)', () => {
 
     it('(multiple) should return the new elements for chaining', () => {
       const $purple = $(
-        '<li class="grape">Grape</li><li class="plum">Plum</li>'
+        '<li class="grape">Grape</li><li class="plum">Plum</li>',
       ).insertAfter('.apple, .pear');
       expect($purple.cheerio).toBeTruthy();
       expect($purple.each).toBeTruthy();
@@ -1287,7 +1285,7 @@ describe('$(...)', () => {
 
     it('(Array) : should add all elements in the array as previous sibling', () => {
       const more = $(
-        '<li class="plum">Plum</li><li class="grape">Grape</li>'
+        '<li class="plum">Plum</li><li class="grape">Grape</li>',
       ).get();
       $('.apple').before(more);
       expect($fruits.children().eq(0).hasClass('plum')).toBe(true);
@@ -1304,8 +1302,8 @@ describe('$(...)', () => {
 
     it('(fn) : should invoke the callback with the correct arguments and context', () => {
       const args: [number, string][] = [];
-      const thisValues: Node[] = [];
-      $fruits = $fruits.children();
+      const thisValues: AnyNode[] = [];
+      const $fruits = $('#fruits').children();
 
       $fruits.before(function (...myArgs) {
         args.push(myArgs);
@@ -1322,7 +1320,7 @@ describe('$(...)', () => {
     });
 
     it('(fn) : should add returned string as previous sibling', () => {
-      $fruits = $fruits.children();
+      const $fruits = $('#fruits').children();
 
       $fruits.before(() => '<li class="first">');
 
@@ -1332,7 +1330,7 @@ describe('$(...)', () => {
     });
 
     it('(fn) : should add returned Cheerio object as previous sibling', () => {
-      $fruits = $fruits.children();
+      const $fruits = $('#fruits').children();
 
       $fruits.before(() => $('<li class="second">'));
 
@@ -1342,7 +1340,7 @@ describe('$(...)', () => {
     });
 
     it('(fn) : should add returned Node as previous sibling', () => {
-      $fruits = $fruits.children();
+      const $fruits = $('#fruits').children();
 
       $fruits.before(() => $('<li class="third">')[0]);
 
@@ -1355,11 +1353,11 @@ describe('$(...)', () => {
       const $text = load(mixedText);
 
       $text($text('body')[0].children).before(
-        (_, content) => `<c>${content}added</c>`
+        (_, content) => `<c>${content}added</c>`,
       );
 
       expect($text('body').html()).toBe(
-        '<c>1added</c><a>1</a>TEXT<c>2added</c><b>2</b>'
+        '<c>1added</c><a>1</a>TEXT<c>2added</c><b>2</b>',
       );
     });
 
@@ -1456,7 +1454,7 @@ describe('$(...)', () => {
 
     it('(single) should return the new elements for chaining', () => {
       const $purple = $(
-        '<li class="grape">Grape</li><li class="plum">Plum</li>'
+        '<li class="grape">Grape</li><li class="plum">Plum</li>',
       ).insertBefore('.apple');
       expect($purple.cheerio).toBeTruthy();
       expect($purple.each).toBeTruthy();
@@ -1467,7 +1465,7 @@ describe('$(...)', () => {
 
     it('(multiple) should return the new elements for chaining', () => {
       const $purple = $(
-        '<li class="grape">Grape</li><li class="plum">Plum</li>'
+        '<li class="grape">Grape</li><li class="plum">Plum</li>',
       ).insertBefore('.apple, .pear');
       expect($purple.cheerio).toBeTruthy();
       expect($purple.each).toBeTruthy();
@@ -1549,7 +1547,7 @@ describe('$(...)', () => {
 
     it('(Array) : should replace one <li> tag with the elements in the array', () => {
       const more = $(
-        '<li class="plum">Plum</li><li class="grape">Grape</li>'
+        '<li class="plum">Plum</li><li class="grape">Grape</li>',
       ).get();
       $('.orange').replaceWith(more);
 
@@ -1597,7 +1595,7 @@ describe('$(...)', () => {
     it('(self) : should be replaced after replacing it with itself', () => {
       const $a = load('<a>foo</a>', null, false);
       const replacement = '<a>bar</a>';
-      $a('a').replaceWith((_, el: Node) => el);
+      $a('a').replaceWith((_, el: AnyNode) => el);
       $a('a').replaceWith(replacement);
       expect($a.html()).toBe(replacement);
     });
@@ -1619,8 +1617,8 @@ describe('$(...)', () => {
 
     it('(fn) : should invoke the callback with the correct argument and context', () => {
       const origChildren = $fruits.children().get();
-      const args: [number, Node][] = [];
-      const thisValues: Node[] = [];
+      const args: [number, AnyNode][] = [];
+      const thisValues: AnyNode[] = [];
 
       $fruits.children().replaceWith(function (...myArgs) {
         args.push(myArgs);
@@ -1715,6 +1713,15 @@ describe('$(...)', () => {
 
       expect($text('body').html()).toBe('<a></a>TEXT<b></b>');
     });
+
+    it('() : should skip comment nodes', () => {
+      const $comment = load('<a>1</a><!--Comment-->TEXT<b>2</b>');
+      const $body = $comment($comment('body')[0].children);
+
+      $body.empty();
+
+      expect($comment('body').html()).toBe('<a></a><!--Comment-->TEXT<b></b>');
+    });
   });
 
   describe('.html', () => {
@@ -1724,18 +1731,16 @@ describe('$(...)', () => {
           '<li class="apple">Apple</li>',
           '<li class="orange">Orange</li>',
           '<li class="pear">Pear</li>',
-        ].join('')
+        ].join(''),
       );
     });
 
     it('() : should get innerHTML even if its just text', () => {
-      const item = '<li class="pear">Pear</li>';
-      expect($('.pear', item).html()).toBe('Pear');
+      expect($('.pear', '<li class="pear">Pear</li>').html()).toBe('Pear');
     });
 
     it('() : should return empty string if nothing inside', () => {
-      const item = '<li></li>';
-      expect($('li', item).html()).toBe('');
+      expect($('li', '<li></li>').html()).toBe('');
     });
 
     it('(html) : should set the html for its children', () => {
@@ -1745,7 +1750,7 @@ describe('$(...)', () => {
     });
 
     it('(html) : should add new elements for each element in selection', () => {
-      $fruits = $('li');
+      const $fruits = $('li');
       $fruits.html('<li class="durian">Durian</li>');
       let tested = 0;
       $fruits.each(function () {
@@ -1773,7 +1778,7 @@ describe('$(...)', () => {
     it('(elem) : should move the passed element (#940)', () => {
       $('.apple').html($('.orange'));
       expect($fruits.html()).toBe(
-        '<li class="apple"><li class="orange">Orange</li></li><li class="pear">Pear</li>'
+        '<li class="apple"><li class="orange">Orange</li></li><li class="pear">Pear</li>',
       );
     });
 
@@ -1810,7 +1815,7 @@ describe('$(...)', () => {
 
     it('() : should return an html string for a set of elements', () => {
       expect($fruits.find('li').toString()).toBe(
-        '<li class="apple">Apple</li><li class="orange">Orange</li><li class="pear">Pear</li>'
+        '<li class="apple">Apple</li><li class="orange">Orange</li><li class="pear">Pear</li>',
       );
     });
 
@@ -1838,7 +1843,7 @@ describe('$(...)', () => {
       $('.apple').text('Granny Smith Apple');
       expect($('.apple')[0].childNodes[0]).toHaveProperty(
         'data',
-        'Granny Smith Apple'
+        'Granny Smith Apple',
       );
     });
 
@@ -1880,7 +1885,7 @@ describe('$(...)', () => {
       });
       expect($('.apple')[0].childNodes[0]).toHaveProperty(
         'data',
-        'whatever mate'
+        'whatever mate',
       );
     });
 
@@ -1902,13 +1907,13 @@ describe('$(...)', () => {
     });
 
     it('should turn passed values to strings', () => {
-      $('.apple').text(1 as any);
+      $('.apple').text(1 as never);
       expect($('.apple')[0].childNodes[0]).toHaveProperty('data', '1');
     });
 
     it('( undefined ) : should act as an accessor', () => {
       const $div = $('<div>test</div>');
-      expect(typeof $div.text(undefined as any)).toBe('string');
+      expect(typeof $div.text(undefined as never)).toBe('string');
       expect($div.text()).toBe('test');
     });
 
@@ -1920,16 +1925,16 @@ describe('$(...)', () => {
     it('( null ) : should convert to string', () => {
       expect(
         $('<div>')
-          .text(null as any)
-          .text()
+          .text(null as never)
+          .text(),
       ).toBe('null');
     });
 
     it('( 0 ) : should convert to string', () => {
       expect(
         $('<div>')
-          .text(0 as any)
-          .text()
+          .text(0 as never)
+          .text(),
       ).toBe('0');
     });
 
@@ -1939,7 +1944,7 @@ describe('$(...)', () => {
       $apple.text('blah <script>alert("XSS!")</script> blah');
       expect($apple[0].childNodes[0]).toHaveProperty(
         'data',
-        'blah <script>alert("XSS!")</script> blah'
+        'blah <script>alert("XSS!")</script> blah',
       );
       expect($apple.text()).toBe('blah <script>alert("XSS!")</script> blah');
 
@@ -1951,7 +1956,7 @@ describe('$(...)', () => {
   describe('.clone', () => {
     it('() : should return a copy', () => {
       const $src = $(
-        '<div><span>foo</span><span>bar</span><span>baz</span></div>'
+        '<div><span>foo</span><span>bar</span><span>baz</span></div>',
       ).children();
       const $elem = $src.clone();
       expect($elem.length).toBe(3);
@@ -1974,7 +1979,7 @@ describe('$(...)', () => {
     });
 
     it('() : should preserve parsing options', () => {
-      const $ = load('<div>π</div>', { decodeEntities: false });
+      const $ = load('<div>π</div>', { xml: { decodeEntities: false } });
       const $div = $('div');
 
       expect($div.text()).toBe($div.clone().text());

@@ -6,6 +6,12 @@ updates:
       interval: daily
     open-pull-requests-limit: 10
     versioning-strategy: increase
+  - package-ecosystem: npm
+    directory: '/website'
+    schedule:
+      interval: daily
+    open-pull-requests-limit: 4
+    versioning-strategy: increase
   - package-ecosystem: 'github-actions'
     directory: '/'
     schedule:

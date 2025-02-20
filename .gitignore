@@ -1,7 +1,11 @@
 node_modules
 npm-debug.log
 .DS_Store
-/.netlify/
+.docusaurus
+.cache-loader
 /coverage
-/docs
-/lib
+/.tshy
+/.tshy-build
+/dist
+/website/docs/api
+/website/build
